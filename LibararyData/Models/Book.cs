@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace LibararyData.Models
+namespace LibraryData.Models
 {
-   public class Book : LibararyAssets
+   public class Book : LibraryAssets
     {
         [Required]
         public string ISBN { get; set; }
@@ -14,6 +14,6 @@ namespace LibararyData.Models
         public string Author { get; set; }
 
         [Required]
-        public string DeweyUndex { get; set; }
+        public string DeweyIndex { get; set; }
     }
 }

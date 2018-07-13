@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LibararyData.Models
+namespace LibraryData.Models
 {
     public class Patron
     {
@@ -14,8 +14,8 @@ namespace LibararyData.Models
         public DateTime DateOfBirth{ get; set; }
         public string TelephoneNumber{ get; set; }
 
-        public virtual LibararyCard libararyCard { get; set; }
-        public virtual LibararyBranch HomeLibararyBranch { get; set; }
+        public virtual LibraryCard libraryCard { get; set; }
+        public virtual LibraryBranch HomeLibraryBranch { get; set; }
 
     }
 }

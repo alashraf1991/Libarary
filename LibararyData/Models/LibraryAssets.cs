@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace LibararyData.Models
+namespace LibraryData.Models
 {
-   public abstract class LibararyAssets
+   public abstract class LibraryAssets
     {
 
         public int Id { get; set; }
@@ -17,7 +17,7 @@ namespace LibararyData.Models
         public int Year { get; set; }
 
         [Required]
-        public string Status { get; set; }
+        public string StatusId { get; set; }
 
         [Required]
         public decimal Cost { get; set; }
@@ -26,8 +26,11 @@ namespace LibararyData.Models
         public string ImageUrl { get; set; }
 
         [Required]
+        public string Discriminator { get; set; }
+
+        [Required]
         public int NumberOfCopies { get; set; }
 
-        public virtual LibararyBranch Location { get; set; }
+        public virtual LibraryBranch Location { get; set; }
     }
 }

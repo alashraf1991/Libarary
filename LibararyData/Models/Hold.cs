@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LibararyData.Models
+namespace LibraryData.Models
 {
    public class Hold
     {
         public int Id { get; set; }
-        public virtual LibararyAssets LibararyAssets { get; set; }
-        public virtual LibararyCard LibararyCard { get; set; }
+        public virtual LibraryAssets LibraryAssets { get; set; }
+        public virtual LibraryCard LibraryCard { get; set; }
         public DateTime HoldPlaced { get; set; }
     }
 }

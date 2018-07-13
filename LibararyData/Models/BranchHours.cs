@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace LibararyData.Models
+namespace LibraryData.Models
 {
    public class BranchHours
     {        
         public int Id { get; set; }
-        public LibararyBranch Branch { get; set; }
+        public LibraryBranch Branch { get; set; }
 
         [Range(0,6)]
         public string DayOfWeek { get; set; }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace LibararyData.Models
+namespace LibraryData.Models
 {
-    public class LibararyBranch
+    public class LibraryBranch
     {
         public int Id { get; set; }
 
@@ -23,7 +23,7 @@ namespace LibararyData.Models
 
 
         public virtual IEnumerable<Patron> Patrons { get; set; }
-        public virtual IEnumerable<LibararyAssets> LibararyAssets { get; set; }
+        public virtual IEnumerable<LibraryAssets> LibraryAssets { get; set; }
 
         public string ImageUrl { get; set; }
     }

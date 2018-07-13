@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace LibararyData.Models
+namespace LibraryData.Models
 {
-    public class Video
-    {
-        public int Id { get; set; }
+    public class Video : LibraryAssets
+    {        
         [Required]
         public string Director { get; set; }
     }

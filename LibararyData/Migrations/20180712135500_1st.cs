@@ -4,22 +4,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LibararyData.Migrations
 {
-    public partial class AddInitialentitymodels : Migration
+    public partial class _1st : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "HomeLibararyBranchId",
-                table: "Patrons",
-                nullable: true);
-
-            migrationBuilder.AddColumn<int>(
-                name: "libararyCardId",
-                table: "Patrons",
-                nullable: true);
-
             migrationBuilder.CreateTable(
-                name: "LibararyBranches",
+                name: "LibraryBranches",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -33,11 +23,11 @@ namespace LibararyData.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LibararyBranches", x => x.Id);
+                    table.PrimaryKey("PK_LibraryBranches", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LibararyCards",
+                name: "LibraryCards",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -47,7 +37,7 @@ namespace LibararyData.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LibararyCards", x => x.Id);
+                    table.PrimaryKey("PK_LibraryCards", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,19 +55,6 @@ namespace LibararyData.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Videos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Director = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Videos", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BranchHours",
                 columns: table => new
                 {
@@ -92,38 +69,70 @@ namespace LibararyData.Migrations
                 {
                     table.PrimaryKey("PK_BranchHours", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BranchHours_LibararyBranches_BranchId",
+                        name: "FK_BranchHours_LibraryBranches_BranchId",
                         column: x => x.BranchId,
-                        principalTable: "LibararyBranches",
+                        principalTable: "LibraryBranches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "libararyAssets",
+                name: "libraryAssets",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: false),
                     Year = table.Column<int>(nullable: false),
-                    Status = table.Column<string>(nullable: false),
+                    StatusId = table.Column<string>(nullable: false),
                     Cost = table.Column<decimal>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
                     NumberOfCopies = table.Column<int>(nullable: false),
                     LocationId = table.Column<int>(nullable: true),
-                    Discriminator = table.Column<string>(nullable: false),
                     ISBN = table.Column<string>(nullable: true),
                     Author = table.Column<string>(nullable: true),
-                    DeweyUndex = table.Column<string>(nullable: true)
+                    DeweyIndex = table.Column<string>(nullable: true),
+                    Director = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_libararyAssets", x => x.Id);
+                    table.PrimaryKey("PK_libraryAssets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_libararyAssets_LibararyBranches_LocationId",
+                        name: "FK_libraryAssets_LibraryBranches_LocationId",
                         column: x => x.LocationId,
-                        principalTable: "LibararyBranches",
+                        principalTable: "LibraryBranches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Patrons",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    TelephoneNumber = table.Column<string>(nullable: true),
+                    libraryCardId = table.Column<int>(nullable: true),
+                    HomeLibraryBranchId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patrons", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Patrons_LibraryBranches_HomeLibraryBranchId",
+                        column: x => x.HomeLibraryBranchId,
+                        principalTable: "LibraryBranches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Patrons_LibraryCards_libraryCardId",
+                        column: x => x.libraryCardId,
+                        principalTable: "LibraryCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -134,8 +143,8 @@ namespace LibararyData.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    libararyAssetsId = table.Column<int>(nullable: false),
-                    libararyCardId = table.Column<int>(nullable: true),
+                    libraryAssetsId = table.Column<int>(nullable: false),
+                    libraryCardId = table.Column<int>(nullable: true),
                     Since = table.Column<DateTime>(nullable: false),
                     Until = table.Column<DateTime>(nullable: false)
                 },
@@ -143,15 +152,15 @@ namespace LibararyData.Migrations
                 {
                     table.PrimaryKey("PK_CheckOuts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CheckOuts_libararyAssets_libararyAssetsId",
-                        column: x => x.libararyAssetsId,
-                        principalTable: "libararyAssets",
+                        name: "FK_CheckOuts_libraryAssets_libraryAssetsId",
+                        column: x => x.libraryAssetsId,
+                        principalTable: "libraryAssets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CheckOuts_LibararyCards_libararyCardId",
-                        column: x => x.libararyCardId,
-                        principalTable: "LibararyCards",
+                        name: "FK_CheckOuts_LibraryCards_libraryCardId",
+                        column: x => x.libraryCardId,
+                        principalTable: "LibraryCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -162,8 +171,8 @@ namespace LibararyData.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    libararyAssetsId = table.Column<int>(nullable: false),
-                    libararyCardId = table.Column<int>(nullable: false),
+                    libraryAssetsId = table.Column<int>(nullable: false),
+                    libraryCardId = table.Column<int>(nullable: false),
                     CheckedOut = table.Column<DateTime>(nullable: false),
                     CheckedIn = table.Column<DateTime>(nullable: true)
                 },
@@ -171,15 +180,15 @@ namespace LibararyData.Migrations
                 {
                     table.PrimaryKey("PK_GetCheckOutHistories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GetCheckOutHistories_libararyAssets_libararyAssetsId",
-                        column: x => x.libararyAssetsId,
-                        principalTable: "libararyAssets",
+                        name: "FK_GetCheckOutHistories_libraryAssets_libraryAssetsId",
+                        column: x => x.libraryAssetsId,
+                        principalTable: "libraryAssets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GetCheckOutHistories_LibararyCards_libararyCardId",
-                        column: x => x.libararyCardId,
-                        principalTable: "LibararyCards",
+                        name: "FK_GetCheckOutHistories_LibraryCards_libraryCardId",
+                        column: x => x.libraryCardId,
+                        principalTable: "LibraryCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -190,36 +199,26 @@ namespace LibararyData.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LibararyAssetsId = table.Column<int>(nullable: true),
-                    LibararyCardId = table.Column<int>(nullable: true),
+                    LibraryAssetsId = table.Column<int>(nullable: true),
+                    LibraryCardId = table.Column<int>(nullable: true),
                     HoldPlaced = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Holds", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Holds_libararyAssets_LibararyAssetsId",
-                        column: x => x.LibararyAssetsId,
-                        principalTable: "libararyAssets",
+                        name: "FK_Holds_libraryAssets_LibraryAssetsId",
+                        column: x => x.LibraryAssetsId,
+                        principalTable: "libraryAssets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Holds_LibararyCards_LibararyCardId",
-                        column: x => x.LibararyCardId,
-                        principalTable: "LibararyCards",
+                        name: "FK_Holds_LibraryCards_LibraryCardId",
+                        column: x => x.LibraryCardId,
+                        principalTable: "LibraryCards",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Patrons_HomeLibararyBranchId",
-                table: "Patrons",
-                column: "HomeLibararyBranchId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Patrons_libararyCardId",
-                table: "Patrons",
-                column: "libararyCardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BranchHours_BranchId",
@@ -227,67 +226,53 @@ namespace LibararyData.Migrations
                 column: "BranchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CheckOuts_libararyAssetsId",
+                name: "IX_CheckOuts_libraryAssetsId",
                 table: "CheckOuts",
-                column: "libararyAssetsId");
+                column: "libraryAssetsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CheckOuts_libararyCardId",
+                name: "IX_CheckOuts_libraryCardId",
                 table: "CheckOuts",
-                column: "libararyCardId");
+                column: "libraryCardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GetCheckOutHistories_libararyAssetsId",
+                name: "IX_GetCheckOutHistories_libraryAssetsId",
                 table: "GetCheckOutHistories",
-                column: "libararyAssetsId");
+                column: "libraryAssetsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GetCheckOutHistories_libararyCardId",
+                name: "IX_GetCheckOutHistories_libraryCardId",
                 table: "GetCheckOutHistories",
-                column: "libararyCardId");
+                column: "libraryCardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Holds_LibararyAssetsId",
+                name: "IX_Holds_LibraryAssetsId",
                 table: "Holds",
-                column: "LibararyAssetsId");
+                column: "LibraryAssetsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Holds_LibararyCardId",
+                name: "IX_Holds_LibraryCardId",
                 table: "Holds",
-                column: "LibararyCardId");
+                column: "LibraryCardId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_libararyAssets_LocationId",
-                table: "libararyAssets",
+                name: "IX_libraryAssets_LocationId",
+                table: "libraryAssets",
                 column: "LocationId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Patrons_LibararyBranches_HomeLibararyBranchId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Patrons_HomeLibraryBranchId",
                 table: "Patrons",
-                column: "HomeLibararyBranchId",
-                principalTable: "LibararyBranches",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                column: "HomeLibraryBranchId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Patrons_LibararyCards_libararyCardId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Patrons_libraryCardId",
                 table: "Patrons",
-                column: "libararyCardId",
-                principalTable: "LibararyCards",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                column: "libraryCardId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Patrons_LibararyBranches_HomeLibararyBranchId",
-                table: "Patrons");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Patrons_LibararyCards_libararyCardId",
-                table: "Patrons");
-
             migrationBuilder.DropTable(
                 name: "BranchHours");
 
@@ -301,35 +286,19 @@ namespace LibararyData.Migrations
                 name: "Holds");
 
             migrationBuilder.DropTable(
+                name: "Patrons");
+
+            migrationBuilder.DropTable(
                 name: "Statuses");
 
             migrationBuilder.DropTable(
-                name: "Videos");
+                name: "libraryAssets");
 
             migrationBuilder.DropTable(
-                name: "libararyAssets");
+                name: "LibraryCards");
 
             migrationBuilder.DropTable(
-                name: "LibararyCards");
-
-            migrationBuilder.DropTable(
-                name: "LibararyBranches");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Patrons_HomeLibararyBranchId",
-                table: "Patrons");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Patrons_libararyCardId",
-                table: "Patrons");
-
-            migrationBuilder.DropColumn(
-                name: "HomeLibararyBranchId",
-                table: "Patrons");
-
-            migrationBuilder.DropColumn(
-                name: "libararyCardId",
-                table: "Patrons");
+                name: "LibraryBranches");
         }
     }
 }

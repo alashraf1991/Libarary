@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace LibararyData.Models
+namespace LibraryData.Models
 {
   public  class CheckOut
     {
@@ -11,8 +11,8 @@ namespace LibararyData.Models
         public int Id { get; set; }
 
         [Required]
-        public LibararyAssets libararyAssets { get; set; }
-        public LibararyCard libararyCard { get; set; }
+        public LibraryAssets libraryAssets { get; set; }
+        public LibraryCard libraryCard { get; set; }
         public DateTime Since { get; set; }
         public DateTime Until { get; set; }
 

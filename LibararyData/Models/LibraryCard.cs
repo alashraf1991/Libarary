@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LibararyData.Models
+namespace LibraryData.Models
 {
-   public class LibararyCard
+   public class LibraryCard
     {
         public int Id { get; set; }
 
